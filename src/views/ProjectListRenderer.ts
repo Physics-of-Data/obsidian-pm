@@ -217,7 +217,9 @@ function wireProjectTags(ctx: ProjectListContext, ref: ProjectRef, container: HT
     addLabel: 'Add tag',
     selected: () => current,
     options: () => {
-      const custom = current
+      // Vault-wide, not just this project's own tags, so a custom tag created on one
+      // project is pickable (not just retypeable) from every other project's picker too.
+      const custom = tagsInUse(ctx)
         .filter((t) => !PROJECT_TAG_PALETTE_IDS.has(t))
         .map((t) => ({ id: t, label: projectTagLabel(t) }))
       return [...PROJECT_TAG_PALETTE, ...custom]
